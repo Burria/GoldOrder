@@ -14,8 +14,8 @@ goldInflationRestWorld5 = 179
 goldChanceOPEC = .20
 goldChanceOPECPlus = .50 #only if goldOpec = true!
 goldChanceBrics = .20
-goldChanceUS = .10
-goldChanceEU = .03
+goldChanceUS = .15
+goldChanceEU = .05
 goldChanceRestWorld5 = .10
 
 #Increase of adopting chance after trigger
@@ -24,7 +24,7 @@ goldTriggerOPECPlus = .05 #only if goldOpec = true!
 goldTriggerBrics = .20
 goldTriggerUS = .50
 goldTriggerEU = .35
-goldTriggerRestWorld5 = .10
+goldTriggerRestWorld5 = .15
 
 #GeneralData
 USEconomySize = .239
@@ -45,6 +45,11 @@ XAUInEUR = 1746.42
 mEU = ((7389683 + (.50 * 3486458)) * 1000000) / XAUInEUR
 mUS = ((19377758 + (.50 * 2236142) + (.15 * 12000000)) * 1000000) / XAUInUS
 m5 = ((0.05 * (0.5 * 38120)) * 1000000)
+
+class calcResult:
+  def __init__(self, amount, year):
+    self.amount = amount
+    self.year = year
 
 
 def simulateNext():
@@ -151,8 +156,7 @@ def simulateNext():
 			goldTriggerAccumulated += goldTriggerRestWorld5 * goldRestWorld5_tmp
 			goldActualOutput += goldInflationRestWorld5 * goldRestWorld5_tmp
 			totalGlobalAdoption += ((1 - EUEconomySize - USEconomySize) / 20) * goldRestWorld5_tmp
-			goldRestWorld5_tmp = 0			
-		
+			goldRestWorld5_tmp = 0	
 			
 		discRate.append(-0.5* (popGrowth[20] if year >= 20 else popGrowth[year]) + baseDisc)		
 		
@@ -160,18 +164,19 @@ def simulateNext():
 	XAUAmount = mEU * goldEU_local + mUS * goldUS_local + (m5 / 20) * goldRestWorld5_local 
 	XAUVal = XAUAmount/(goldAboveGround_local * toneToToz)
 	for i in range (0, len(discRate)):
-		XAUVal = XAUVal / (1 + discRate[i])		
-	
-	return XAUVal
+		XAUVal = XAUVal / (1 + discRate[i])	
+	return calcResult(XAUVal, len(discRate))
 
 print("number of simulations (in hundreds)")
 numSimulations = int(input()) * 100
 simResults = []
 while(len(simResults) < numSimulations):	
 	simResults.append(simulateNext())
-totalval = 0
+totalVal = 0
+totalYears = 0
 for i in range (0, len(simResults)):
-	totalval += simResults[i]
-print(totalval/len(simResults))
+	totalVal += simResults[i].amount
+	totalYears += simResults[i].year
+print("XAU: " + str(totalVal/len(simResults)) + " Years: " + str(totalYears/len(simResults)))
 	
 
