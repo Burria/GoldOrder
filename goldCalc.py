@@ -83,29 +83,30 @@ def simulateNext():
 		year = len(discRate)
 		
 		if(goldOpec_local == False):
-			if(random.uniform(0, 1) < (goldChanceOPEC/20)*(1 + goldTriggerAccumulated)):
+			if(random.uniform(0, 1) < 1-(1-goldChanceOPEC*(1 + goldTriggerAccumulated))**(1/20)):
 				goldOpec_tmp = True
 				
 		if(goldOpecPlus_local == False and (goldOpec_tmp or goldOpec_local)):
-			if(random.uniform(0, 1) < (goldChanceOPECPlus/20)*(1 + goldTriggerAccumulated)):
+			tmpOPPlus = 1 if (1-goldChanceOPECPlus*(1 + goldTriggerAccumulated)) <= 0 else 1-(1-goldChanceOPECPlus*(1 + goldTriggerAccumulated))**(1/20)
+			if(random.uniform(0, 1) < tmpOPPlus):
 				goldOpecPlus_tmp = True
 				
 		if(goldBRICS_local == False):
-			if(random.uniform(0, 1) < (goldChanceBrics/20)*(1 + goldTriggerAccumulated)):
+			if(random.uniform(0, 1) < 1-(1-goldChanceBrics*(1 + goldTriggerAccumulated))**(1/20)):
 				goldBRICS_tmp = True
 				
 		if(goldUS_local == False):
-			if(random.uniform(0, 1) < (goldChanceUS/20)*(1 + goldTriggerAccumulated)):
+			if(random.uniform(0, 1) < 1-(1-goldChanceUS*(1 + goldTriggerAccumulated))**(1/20)):
 				goldUS_tmp = True
 				
 		if(goldEU_local == False):
-			if(random.uniform(0, 1) < (goldChanceEU/20)*(1 + goldTriggerAccumulated)):
+			if(random.uniform(0, 1) < 1-(1-goldChanceEU*(1 + goldTriggerAccumulated))**(1/20)):
 				goldEU_tmp = True
 				
 		if(goldRestWorld5_local == False):
 			i = 0
 			for i in range (0,20 - goldRestWorld5_local):
-				if(random.uniform(0, 1) < (goldChanceRestWorld5/20)*(1 + goldTriggerAccumulated)):
+				if(random.uniform(0, 1) < 1-(1-goldChanceRestWorld5*(1 + goldTriggerAccumulated))**(1/20)):
 					goldRestWorld5_tmp += 1
 					
 		#production
