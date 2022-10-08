@@ -1,3 +1,7 @@
+#########
+# v 1.0 #
+#########
+
 import random
 
 #Mine yearly output
